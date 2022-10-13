@@ -123,8 +123,13 @@ def find_all_paths_alter(graph, x, y, end_x, end_y, path):
         path = queue.pop(0)
         current = path[-1]
         if current not in visited:
-            neighbours = graph[current]
-
+            try:
+                neighbours = graph[current]
+            except KeyError as e:
+                print("Выбирая конец или начало пути, вы кликнули на стенку лабиринта", e)
+                global running
+                running = False
+                break
             for neighbour in neighbours:
                 new_path = list(path)
                 new_path.append(neighbour)
